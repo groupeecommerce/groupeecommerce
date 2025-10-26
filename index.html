@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>انضمّ لكوميتنا — WhatsApp</title>
+  <title>انضمّ إلى الكوميتي — WhatsApp</title>
   <style>
     html,body{
       height:100%;
@@ -21,7 +21,7 @@
     .card{
       width:100%;
       max-width:700px;
-      background:rgba(255,255,255,0.03);
+      background:rgba(255,255,255,0.04);
       padding:28px;
       border-radius:16px;
       box-shadow:0 8px 30px rgba(2,6,23,0.6);
@@ -64,11 +64,11 @@
 </head>
 <body>
   <div class="card" role="main">
-    <h1>مرحبا! انضمّ لكوميتنا فـ WhatsApp</h1>
+    <h1>انضمّ إلى الكوميتي على واتساب</h1>
     <p>اختار نوع هاتفك واضغط على الزر باش تدخل مباشرة للمجموعة 👇</p>
 
-    <button id="androidBtn" class="btn android">Android — فتح المجموعة</button>
-    <button id="iosBtn" class="btn ios">iPhone — فتح المجموعة</button>
+    <button id="androidBtn" class="btn android">Android — انضم للمجموعة</button>
+    <button id="iosBtn" class="btn ios">iPhone — انضم للمجموعة</button>
 
     <div>
       <button id="copyBtn" class="copy">نسخ رابط المجموعة</button>
@@ -76,12 +76,11 @@
     </div>
 
     <p class="small" style="margin-top:10px;">
-      إذا ما تفتحاتش المجموعة مباشرة، غادي تفتح فـ web.whatsapp.com بلا ما يدخلك للمتجر.
+      إذا ما تفتحاتش المجموعة مباشرة، غادي تفتح فـ <strong>web.whatsapp.com</strong> بلا ما يدخلك للمتجر.
     </p>
   </div>
 
   <script>
-    // رابط المجموعة ديالك
     const GROUP_LINK = "https://chat.whatsapp.com/Hyqgqz3nEg89SwbJ8EIoWq?mode=wwt";
 
     const androidBtn = document.getElementById('androidBtn');
@@ -89,34 +88,28 @@
     const copyBtn = document.getElementById('copyBtn');
     const copyStatus = document.getElementById('copyStatus');
 
-    function tryOpenApp(schemeUrl, fallbackWebUrl) {
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = schemeUrl;
-      document.body.appendChild(iframe);
+    function openGroup() {
+      // نحاول فتح التطبيق مباشرة
+      const whatsappApp = "whatsapp://chat?link=" + encodeURIComponent(GROUP_LINK);
+      window.location.href = whatsappApp;
+
+      // fallback: إذا ما تفتحش التطبيق، نفتح الرابط العادي
       setTimeout(() => {
-        document.body.removeChild(iframe);
-        window.open(fallbackWebUrl, '_blank', 'noopener,noreferrer');
-      }, 1200);
+        window.open(GROUP_LINK, "_blank", "noopener,noreferrer");
+      }, 800);
     }
 
-    function openWhatsApp() {
-      const scheme = 'whatsapp://chat?group=' + encodeURIComponent(GROUP_LINK);
-      const fallback = GROUP_LINK.replace(/^https?:\/\/chat\.whatsapp\.com/, 'https://chat.whatsapp.com');
-      tryOpenApp(scheme, fallback);
-    }
-
-    androidBtn.addEventListener('click', openWhatsApp);
-    iosBtn.addEventListener('click', openWhatsApp);
+    androidBtn.addEventListener('click', openGroup);
+    iosBtn.addEventListener('click', openGroup);
 
     copyBtn.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(GROUP_LINK);
-        copyStatus.textContent = "تم نسخ الرابط ✓";
+        copyStatus.textContent = "✅ تم نسخ الرابط";
         copyStatus.className = "small success";
         setTimeout(()=>{ copyStatus.textContent = ""; }, 4000);
       } catch {
-        copyStatus.textContent = "فشل النسخ، انسخ الرابط يدوياً.";
+        copyStatus.textContent = "⚠ فشل النسخ، انسخ الرابط يدوياً.";
         copyStatus.className = "small";
       }
     });
