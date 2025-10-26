@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>انضمّ لكوميتنا — WhatsApp</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#25D366;
+      --muted:#9aa4b2;
+    }
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic",sans-serif;background:linear-gradient(180deg,#071019 0%, #0b1622 100%);color:#fff;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}
+    .card{width:100%;max-width:700px;background:rgba(255,255,255,0.03);padding:28px;border-radius:16px;box-shadow:0 8px 30px rgba(2,6,23,0.6);text-align:center}
+    h1{margin:0 0 10px 0;font-size:22px}
+    p{margin:0 0 18px 0;color:var(--muted);line-height:1.6}
+    .btn{
+      min-width:180px;
+      height:48px;
+      border-radius:10px;
+      border:0;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:600;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:0 14px;
+      user-select:none;
+      transition:transform .12s ease,opacity .12s;
+      color:white;
+      margin:6px;
+    }
+    .btn:active{transform:translateY(1px)}
+    .android{background:linear-gradient(90deg,#1e8f3d,#2bbf5b);}
+    .ios{background:linear-gradient(90deg,#0a84ff,#5ac8fa);}
+    .copy{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);height:44px;padding:0 12px;border-radius:10px;margin-top:12px}
+    .small{font-size:13px;color:var(--muted)}
+    .success{color:#4ade80}
+  </style>
+</head>
+<body>
+  <div class="card" role="main">
+    <h1>مرحبا! انضمّ لكوميتنا فـ WhatsApp</h1>
+    <p>باش ماتتحولش الصفحة تلقائياً للبلاي ستور، خليك فيها على الأقل 60 ثانية. الأزرار كيتخدمو من دابا، تقدر تدخل للمجموعة مباشرة من هنا 👇</p>
+
+    <button id="androidBtn" class="btn android">Android — فتح المجموعة</button>
+    <button id="iosBtn" class="btn ios">iPhone — فتح المجموعة</button>
+
+    <div>
+      <button id="copyBtn" class="copy">نسخ رابط المجموعة</button>
+      <div id="copyStatus" class="small"></div>
+    </div>
+
+    <p class="small" style="margin-top:10px;">إذا ما تفتحاتش المجموعة مباشرة، غادي يفتحها فـ web.whatsapp.com بلا ما يدخلك للمتجر.</p>
+  </div>
+
+  <script>
+    const GROUP_LINK = "https://chat.whatsapp.com/Hyqgqz3nEg89SwbJ8EIoWq?mode=wwt";
+
+    const androidBtn = document.getElementById('androidBtn');
+    const iosBtn = document.getElementById('iosBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const copyStatus = document.getElementById('copyStatus');
+
+    function tryOpenApp(schemeUrl, fallbackWebUrl) {
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = schemeUrl;
+      document.body.appendChild(iframe);
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+        window.open(fallbackWebUrl, '_blank', 'noopener,noreferrer');
+      }, 1200);
+    }
+
+    function openWhatsApp() {
+      const scheme = 'whatsapp://chat?group=' + encodeURIComponent(GROUP_LINK);
+      const fallback = GROUP_LINK.replace(/^https?:\/\/chat\.whatsapp\.com/, 'https://chat.whatsapp.com');
+      tryOpenApp(scheme, fallback);
+    }
+
+    androidBtn.addEventListener('click', openWhatsApp);
+    iosBtn.addEventListener('click', openWhatsApp);
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(GROUP_LINK);
+        copyStatus.textContent = "تم نسخ الرابط ✓";
+        copyStatus.className = "small success";
+        setTimeout(()=>{ copyStatus.textContent = ""; }, 4000);
+      } catch {
+        copyStatus.textContent = "فشل النسخ، انسخ الرابط يدوياً.";
+        copyStatus.className = "small";
+      }
+    });
+
+    // خليك فـ الصفحة على الأقل 60 ثانية (ما كاينش تحويل تلقائي)
+    setTimeout(() => {
+      console.log("سلات 60 ثانية — تقدر تدير أي شيء بعد.");
+    }, 60000);
+  </script>
+</body>
+</html>
