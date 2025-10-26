@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>انضم إلى مجموعة واتساب</title>
+
+  <style>
+    :root{
+      --wa-green: #25D366;
+      --wa-green-dark: #1ebe5a;
+      --text: #0f1724;
+      --muted: #6b7280;
+      --bg: #ffffff;
+      --surface: #f5fef8;
+      --shadow: 0 8px 24px rgba(0,0,0,0.08);
+      font-family: "Tajawal", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 28px 22px;
+      text-align: center;
+      max-width: 420px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+
+    .wa-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--wa-green);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: background 0.2s ease;
+      box-shadow: 0 4px 10px rgba(37,211,102,0.25);
+    }
+
+    .wa-btn:hover {
+      background: var(--wa-green-dark);
+    }
+
+    .wa-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: #fff;
+    }
+
+    .note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    @media (min-width: 600px) {
+      h1 { font-size: 24px; }
+      .wa-btn { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="card">
+    <h1>انضم إلى مجموعة واتساب</h1>
+    <p>اضغط على الزر أدناه للانضمام مباشرة إلى المجموعة. سيتم فتح تطبيق واتساب تلقائيًا إن كان مثبتًا لديك.</p>
+
+    <a id="waBtn" href="#" class="wa-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M17.472 14.382c-.297-.149-1.758-.868-2.028-.969-.272-.1-.47-.149-.667.149-.197.3-.765.968-.94 1.165-.174.198-.347.223-.644.075-.297-.149-1.258-.463-2.392-1.475-.885-.788-1.48-1.761-1.653-2.06-.173-.3-.018-.463.13-.612.134-.133.299-.347.448-.52.149-.174.198-.298.298-.497.1-.199.05-.373-.025-.522-.075-.149-.667-1.61-.916-2.208-.24-.579-.483-.5-.667-.51l-.57-.01c-.197 0-.52.075-.792.373s-1.04 1.016-1.04 2.475 1.065 2.866 1.214 3.065c.149.198 2.1 3.2 5.08 4.487.709.306 1.262.489 1.693.625.711.227 1.358.195 1.872.118.571-.085 1.758-.719 2.006-1.414.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/>
+        <path fill="none" d="M20.52 3.48A11.86 11.86 0 0 0 12.03 1C6.46 1 1.98 5.5 1.98 11.06c0 1.95.5 3.85 1.44 5.55L1 23l6.64-2.34a11.89 11.89 0 0 0 4.39.83h.01c5.57 0 10.05-4.5 10.05-10.06 0-2.69-1.05-5.21-2.62-7.92Z"/>
+      </svg>
+      انضم الآن
+    </a>
+
+    <p class="note">إذا لم يُفتح التطبيق تلقائيًا، سيتم فتح المجموعة في واتساب ويب.</p>
+  </main>
+
+  <script>
+    const groupCode = "https://chat.whatsapp.com/DRbF25hCgf3J5QsKLYRWVj";
+    const waLink = https://chat.whatsapp.com/${groupCode};
+    const waBtn = document.getElementById("waBtn");
+
+    waBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const appLink = whatsapp://chat?code=${https://chat.whatsapp.com/DRbF25hCgf3J5QsKLYRWVj};
+      // حاول فتح التطبيق مباشرة
+      const timeout = setTimeout(() => {
+        // إذا لم يُفتح التطبيق، انتقل للرابط العادي
+        window.location.href = waLink;
+      }, 1200);
+
+      // افتح التطبيق
+      window.location.href = appLink;
+
+      // إذا تم الفتح بنجاح، ألغِ التحويل الاحتياطي
+      window.addEventListener("pagehide", () => clearTimeout(timeout));
+    });
+  </script>
+
+</body>
+</html>
